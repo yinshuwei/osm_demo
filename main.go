@@ -27,14 +27,21 @@ func timePoint(t time.Time) *time.Time {
 }
 
 func main() {
-	o, err := osm.New("mysql", "root:123456@/test?charset=utf8", osm.Options{})
+	logger, _ := zap.NewDevelopment()
+	o, err := osm.New("mysql", "root:123456@/test?charset=utf8", osm.Options{
+		MaxIdleConns:    0,                    //    int
+		MaxOpenConns:    0,                    //    int
+		ConnMaxLifetime: 0,                    // time.Duration
+		ConnMaxIdleTime: 0,                    // time.Duration
+		WarnLogger:      &WarnLoggor{logger},  // Logger
+		ErrorLogger:     &ErrorLogger{logger}, // Logger
+		InfoLogger:      &InfoLogger{logger},  // Logger
+		ShowSQL:         true,                 // bool
+		SlowLogDuration: 0,                    // time.Duration
+	})
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-
-	logger, _ := zap.NewDevelopment()
-
-	osm.ConfLogger(&Logger{logger}, &Logger{logger}, true, 0)
 
 	{ //添加
 		user := User{
