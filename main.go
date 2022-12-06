@@ -29,8 +29,8 @@ func timePoint(t time.Time) *time.Time {
 func main() {
 	logger, _ := zap.NewDevelopment()
 	o, err := osm.New("mysql", "root:123456@/test?charset=utf8", osm.Options{
-		MaxIdleConns:    0,                    //    int
-		MaxOpenConns:    0,                    //    int
+		MaxIdleConns:    0,                    // int
+		MaxOpenConns:    0,                    // int
 		ConnMaxLifetime: 0,                    // time.Duration
 		ConnMaxIdleTime: 0,                    // time.Duration
 		WarnLogger:      &WarnLoggor{logger},  // Logger
